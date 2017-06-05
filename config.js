@@ -37,7 +37,7 @@ vimfx.addCommand({
     description: 'Look up names in different places'
 }, ({vim}) => {
     var pastetext = authClipData();
-    vim.notify(`Authority copied! ${pastetext}`)
+    vim.notify(`Authority Search! ${pastetext}`)
     pastetext = encodeURIComponent(pastetext);
     var viafURL = "http://viaf.org/viaf/search?query=local.names+all+\"{{s}}\"&sortKeys=holdingscount&recordSchema=BriefVIAF".replace('{{s}}', pastetext);
     var atlaURL = "http://nova.atla.com/admin/workbench/search?product=&type=authority&query=%s&heading=&series=&author=&subject=&class=&lang=&keydate=&id_type=&value=&ed_state=&image=&acqu=&assignee_uid=&x=&x_past=&uid=&created%5Bgte%5D=&created%5Blte%5D=&vid_uid=&changed%5Bgte%5D=&changed%5Blte%5D=".replace('%s', pastetext);
