@@ -89,3 +89,27 @@ function openTab(url) {
     var currBrowser = currentWindow.getBrowser();
     currBrowser.addTab(url);
 };
+
+vimfx.addCommand({
+    name: "authsearch",
+    description: "search database for control number, or phrase"
+}, ({vim}) => {
+    var pastetext = authClipData();
+    pastetext = encodeURIComponent(pastetext);
+    var atlaURL = 'http://nova.atla.com/admin/workbench/search?product=&type=&query=%s&heading=&series=&author=&subject=&class=&lang=&keydate=&id_type=&value=&ed_state=&image=&acqu=&assignee_uid=&x=&x_past=&uid=&created%5Bgte%5D=&created%5Blte%5D=&vid_uid=&changed%5Bgte%5D=&changed%5Blte%5D='.replace('%s', pastetext);
+    openTab(atlaURL);
+
+    vim.notify(`Searching atla: ${pastetext}`)
+});
+
+vimfx.set('custom.mode.normal.authsearch', 'aa')
+
+vimfx.addCommand({
+    name: 'clipshow',
+    description: 'show clipboard contents'
+}, ({vim}) => {
+    var cliptext = getClipData();
+    vim.notify(`Clipboard: ${cliptext}`)
+});
+
+vimfx.set('custom.mode.normal.clipshow', 'sy')
