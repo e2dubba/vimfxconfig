@@ -78,7 +78,9 @@ function getClipData() {
 
 function authClipData() {
     let pastetext = getClipData();
-    pastetext = pastetext.replace('Authority: ', '');
+    // pastetext = pastetext.replace('Authority: ', '');
+    pastetext = pastetext.replace(/[A-Z]\w*: /, '');
+
     return pastetext
 };
 
