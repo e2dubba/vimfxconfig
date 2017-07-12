@@ -107,6 +107,20 @@ vimfx.addCommand({
 vimfx.set('custom.mode.normal.authsearch', 'aa')
 
 vimfx.addCommand({
+    name: "booksearch",
+    description: "search database for book search"
+}, ({vim}) => {
+    var pastetext = authClipData();
+    pastetext = encodeURIComponent(pastetext);
+    var atlaURL = 'http://nova.atla.com/admin/workbench/search?product=&type=book&query=%s&heading=&series=&author=&subject=&class=&lang=&keydate=&id_type=&value=&ed_state=&image=&acqu=&assignee_uid=&x=&x_past=&uid=&created%5Bgte%5D=&created%5Blte%5D=&vid_uid=&changed%5Bgte%5D=&changed%5Blte%5D=&search=Search'.replace('%s', pastetext);
+    openTab(atlaURL);
+    vim.notify(`Searching atla: ${pastetext}`)
+});
+
+vimfx.set('custom.mode.normal.booksearch', 'ab')
+
+
+vimfx.addCommand({
     name: 'clipshow',
     description: 'show clipboard contents'
 }, ({vim}) => {
@@ -115,3 +129,15 @@ vimfx.addCommand({
 });
 
 vimfx.set('custom.mode.normal.clipshow', 'sy')
+
+vimfx.addCommand({
+    name: 'authhelper',
+    description: 'Help gather Auth Data'
+}, ({vim}) => {
+    vimfx.send(vim, 'authhelper', {example: 5}, authdata => {
+        console.log('page title: ', authdata)
+    })
+});
+
+vimfx.set('custom.mode.normal.authhelper', 'ap')
+    
