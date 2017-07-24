@@ -1,3 +1,4 @@
+const atlaAuthUrl = "http://nova.atla.com/admin/workbench/search?product=&type=authority&query=%s&heading=&series=&author=&subject=&class=&lang=&keydate=&id_type=&value=&ed_state=&image=&acqu=&assignee_uid=&x=&x_past=&uid=&created%5Bgte%5D=&created%5Blte%5D=&vid_uid=&changed%5Bgte%5D=&changed%5Blte%5D="
 vimfx.addCommand({
     name: 'nodeyanker',
     description: 'Yank the last node in the url',
@@ -40,7 +41,7 @@ vimfx.addCommand({
     vim.notify(`Authority Search! ${pastetext}`)
     pastetext = encodeURIComponent(pastetext);
     var viafURL = "http://viaf.org/viaf/search?query=local.names+all+\"{{s}}\"&sortKeys=holdingscount&recordSchema=BriefVIAF".replace('{{s}}', pastetext);
-    var atlaURL = "http://nova.atla.com/admin/workbench/search?product=&type=authority&query=%s&heading=&series=&author=&subject=&class=&lang=&keydate=&id_type=&value=&ed_state=&image=&acqu=&assignee_uid=&x=&x_past=&uid=&created%5Bgte%5D=&created%5Blte%5D=&vid_uid=&changed%5Bgte%5D=&changed%5Blte%5D=".replace('%s', pastetext);
+    var atlaURL = atlaAuthUrl.replace('%s', pastetext);
     openTab(atlaURL);
     openTab(viafURL);
 
@@ -59,6 +60,19 @@ vimfx.addCommand({
 });
 
 vimfx.set('custom.mode.normal.authcopy', 'ay')
+
+vimfx.addCommand({
+    name: 'authauthsearch',
+    description: 'search for just authority titles'
+}, ({vim}) => {
+    var pastetext = authClipData();
+    pastetext = encodeURIComponent(pastetext);
+    var atlaURL = atlaAuthUrl.replace('%s', pastetext);
+    openTab(atlaURL)
+});
+
+vimfx.set('custom.mode.normal.authauthsearch', 'aA');
+
 
 
 
@@ -111,7 +125,7 @@ vimfx.addCommand({
     description: "search database for book search"
 }, ({vim}) => {
     var pastetext = authClipData();
-    pastetext = pastetext.replace('.', '').toLowerCase();
+    pastetext = pastetext.replace('.', '').toLowerCase().replace(':', ' ');
     pastetext = encodeURIComponent(pastetext);
     var atlaURL = 'http://nova.atla.com/admin/workbench/search?product=&type=book&query=%s&heading=&series=&author=&subject=&class=&lang=&keydate=&id_type=&value=&ed_state=&image=&acqu=&assignee_uid=&x=&x_past=&uid=&created%5Bgte%5D=&created%5Blte%5D=&vid_uid=&changed%5Bgte%5D=&changed%5Blte%5D=&search=Search'.replace('%s', pastetext);
     openTab(atlaURL);
