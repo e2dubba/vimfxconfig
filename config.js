@@ -125,7 +125,7 @@ vimfx.addCommand({
     description: "search database for book search"
 }, ({vim}) => {
     var pastetext = authClipData();
-    pastetext = pastetext.replace('.', '').toLowerCase().replace(':', ' ').replace('?', '');
+    pastetext = pastetext.replace('.', '').toLowerCase().replace(/:/g, ' ').replace(/\?/g, '\\?');
     pastetext = encodeURIComponent(pastetext);
     var atlaURL = 'http://nova.atla.com/admin/workbench/search?product=&type=book&query=%s&heading=&series=&author=&subject=&class=&lang=&keydate=&id_type=&value=&ed_state=&image=&acqu=&assignee_uid=&x=&x_past=&uid=&created%5Bgte%5D=&created%5Blte%5D=&vid_uid=&changed%5Bgte%5D=&changed%5Blte%5D=&search=Search'.replace('%s', pastetext);
     openTab(atlaURL);
