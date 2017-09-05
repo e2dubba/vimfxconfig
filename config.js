@@ -146,9 +146,22 @@ vimfx.addCommand({
 vimfx.set('custom.mode.normal.clipshow', 'sy')
 
 vimfx.addCommand({
+    name: 'viafauthlookup',
+    description: 'look up authority records in viaf'
+}, ({vim}) => {
+    var pastetext = authClipData();
+    pastetext = encodeURIComponent(pastetext);
+    var viafURL = "http://viaf.org/viaf/search?query=local.names+all+\"{{s}}\"&sortKeys=holdingscount&recordSchema=BriefVIAF".replace('{{s}}', pastetext);
+    openTab(viafURL)
+});
+
+vimfx.set('custom.mode.normal.viafauthlookup', 'aV')
+
+vimfx.addCommand({
     name: 'authhelper',
     description: 'Help gather Auth Data'
 }, ({vim}) => {
+    console.log('triggered');
     vimfx.send(vim, 'authhelper', {example: 5}, authdata => {
         console.log('page title: ', authdata)
     })
